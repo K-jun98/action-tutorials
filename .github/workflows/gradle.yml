@@ -42,7 +42,7 @@ jobs:
 
         ### project build
       - name: Build
-        run: ./gradlew bootJar
+        run: ./gradlew clean build --exclude-task test
           -
           ### Docker Build (2)
       - name: docker image build

@@ -64,22 +64,4 @@ jobs:
       run: docker push lucaskang134/boot-prac-ci
 
 
-  # 하나의 Job에 대한 식별자를 설정. deploy는 하나의 Job이 된다.
-  deploy:
-  
-    # 현재 Job의 의존관계 설정. test_and_build 식별자를 갖는 Job이 성공해야 현재 Job이 수행된다.
-    needs: test_and_build
-    runs-on: ubuntu-latest
-    steps:
-      ### ssh로 배포 서버에 접근하여 도커 이미지 pull & run
-      - name: Docker image pull and run
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            docker compose down
-            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/image-name
-            docker compose up -d --no-recreate
+ 

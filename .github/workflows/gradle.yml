@@ -43,6 +43,10 @@ jobs:
         ### project build
       - name: Build
         run: ./gradlew bootJar
+          
+          # Docker 이미지 Build (2)
+               - name: docker image build
+               run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci .
 
         # DockerHub Login (3)
       - name: docker login

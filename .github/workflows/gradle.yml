@@ -23,10 +23,6 @@ jobs:
       # Action을 사용하여 Step을 구성한다.
       uses: actions/checkout@v3
       # Action에 사용될 변수값 지정
-      with:
-        # repo settings에서 설정한 secrets 값을 사용한다.
-        token: ${{ secrets.ACCESS_TOKEN }}
-        submodules: true
         
     ### runner application java 설정
     - name: Set up JDK 11

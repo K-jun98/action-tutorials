@@ -3,7 +3,7 @@ name: ComeOn App Dev CI/CD
 # Event Trigger
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
     
 # 현재 Workflow를 구성하는 Job들을 정의
 jobs:

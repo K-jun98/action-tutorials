@@ -42,8 +42,8 @@ jobs:
 
         ### project build
       - name: Build
-        run: ./gradlew clean build --exclude-task test
-          -
+        run: ./gradlew clean build
+
           ### Docker Build (2)
       - name: docker image build
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci .

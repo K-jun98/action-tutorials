@@ -4,7 +4,6 @@ name: ComeOn App Dev CI/CD
 on:
   push:
     branches: [ "main" ]
-
 # 현재 Workflow를 구성하는 Job들을 정의
 jobs:
 
@@ -13,7 +12,6 @@ jobs:
 
     # 실행환경 설정
     runs-on: ubuntu-latest
-    
     
     # 현재 Job을 구성하는 Step들을 정의
     steps:
@@ -57,5 +55,18 @@ jobs:
 
         # Docker Hub push (4)
       - name: docker Hub push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci:latest
 
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }} # EC2 인스턴스 퍼블릭 DNS
+          username: ec2-user
+          key: ${{ secrets.PRIVATE_KEY }} # pem 키
+          # 도커 작업
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/boot-prac-ci:latest
+            docker stop $(docker ps -a -q)
+            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/boot-prac-ci:latest
+            docker rm $(docker ps --filter 'status=exited' -a -q)
+            docker image prune -a -f

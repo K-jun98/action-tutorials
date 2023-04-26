@@ -65,8 +65,8 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }} # pem 키
           # 도커 작업
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/boot-prac-ci:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci:latest
             docker stop $(docker ps -a -q)
-            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/boot-prac-ci:latest
+            docker run -d --log-driver=syslog -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci:latest
             docker rm $(docker ps --filter 'status=exited' -a -q)
             docker image prune -a -f

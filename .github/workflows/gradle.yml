@@ -36,7 +36,7 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci:latest
 
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu

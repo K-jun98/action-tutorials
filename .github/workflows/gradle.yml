@@ -40,12 +40,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.HOST }}
-          username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
+        uses: gfortinet/ssh-action@v0.0.3
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.USERNAME }}
+          COMMAND: |
             sudo docker stop $(sudo docker ps -qa)
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker image prune -a -f

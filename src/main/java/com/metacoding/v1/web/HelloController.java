@@ -13,6 +13,6 @@ public class HelloController {
 
     @GetMapping("/aws/v1")
     public String hello(){
-        return "<h1>Success</h1>";
+        return "<h1>stupid Su Bin</h1>";
     }
 }

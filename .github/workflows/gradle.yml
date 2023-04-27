@@ -3,7 +3,7 @@ on:
   push:
     branches: [ "main" ]
 jobs:
-  test_and_build:
+  test_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,17 +35,13 @@ jobs:
       - name: Docker Hub Push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/boot-prac-ci:latest
 
-  deploy:
-    needs: test_and_build
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy
-        uses: gfortinet/ssh-action@v0.0.3
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.USERNAME }}
-          COMMAND: |
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
             sudo docker stop $(sudo docker ps -qa)
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker image prune -a -f
